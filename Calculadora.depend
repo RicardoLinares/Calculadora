@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1535818217 source:/home/alumno/Documentos/Linares/Calculadora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	"math.h"
+
+1535818011 source:/home/alumno/Documentos/Linares/Calculadora/math.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	<limits.h>
+
+1535816730 /home/alumno/Documentos/Linares/Calculadora/math.h
+
