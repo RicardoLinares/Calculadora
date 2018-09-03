@@ -15,3 +15,37 @@
 
 1535816730 /home/alumno/Documentos/Linares/Calculadora/math.h
 
+1535975957 source:/home/alumno/Documentos/linares/tp_laboratorio_1/Calculadora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	"math.h"
+
+1535975957 /home/alumno/Documentos/linares/tp_laboratorio_1/Calculadora/math.h
+
+1535975957 source:/home/alumno/Documentos/linares/tp_laboratorio_1/Calculadora/math.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	<limits.h>
+
+1535987517 source:/home/alumno/Documentos/linares/Calculadora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	"math.h"
+
+1535987783 /home/alumno/Documentos/linares/Calculadora/math.h
+
+1535987614 source:/home/alumno/Documentos/linares/Calculadora/math.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	<limits.h>
+
+1535980950 source:/home/alumno/Documentos/linares/Calculadora/flag.c
+

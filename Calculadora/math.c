@@ -4,12 +4,14 @@
 #include <stdio_ext.h>
 #include <limits.h>
 
-
+#define SUCCESS 1
+#define FAILURE 0
 
 /*
-funcionalidad:
-parametros:
-retorno:
+funcionalidad: Suma dos valores enteros y devuelve el resulado entero
+parametro: int Operador 1.
+parametro: int Operador 2.
+retorno: int el resultado de la Suma.
 */
 int suma(int sumando, int sumado)
 {
@@ -17,29 +19,28 @@ int suma(int sumando, int sumado)
     int total;
     total = sumando + sumado;
 
-    printf("%d + %d = %d\n", sumado, sumando, total);
-    return 0;
+    return total;
 }
-
 /*
-funcionalidad:
-parametros:
-retorno:
+funcionalidad: Resta dos valores enteros y devuelve el resulado entero
+parametro: int Operador 1.
+parametro: int Operador 2.
+retorno: int el resultado de la Resta.
 */
 int resta(int restando, int restado)
 {
     int total;
 
     total = restando - restado;
-    printf("%d - %d = %d\n", restando, restado, total);
 
-    return 0;
+    return total;
 }
 
 /*
-funcionalidad:
-parametros:
-retorno:
+funcionalidad: Resta dos valores enteros y devuelve el resulado flotante
+parametro: int Operador 1.
+parametro: int Operador 2.
+retorno: int el resulatado de la Multiplicacion.
 */
 int multiplicacion(int multiplicando, int multiplicado)
 {
@@ -47,8 +48,7 @@ int multiplicacion(int multiplicando, int multiplicado)
     int total;
 
     total = multiplicando * multiplicado;
-    printf("%d * %d = %d\n", multiplicado, multiplicado, total);
-    return 0;
+    return total;
 }
 
 /*
@@ -56,45 +56,44 @@ funcionalidad:
 parametros:
 retorno:
 */
-int factorial(int numero)
+long long int factorial(int numero)
 {
-    int total = 1;
-    int contador;
-    for(contador = 1; contador <= numero; contador++)
+    long long int total = 1;
+    long long int contador;
+    for(contador = numero; contador >= 1; contador--)
     {
         total = total * contador;
     }
-    printf("el facotrial de %d! es %d\n", numero, total);
-    return 0;
+    return total;
 }
 /*
-funcionalidad:
-parametros:
-retorno:
+funcionalidad: Resta dos valores enteros y devuelve el resulado flotante
+parametro: int Dividiendo.
+parametro: int Divisor.
+parametro: float* la direccion de memoria donde se guarda el total
+retorno: int devuelve si se completo la operacion
 */
-int division(int dividiendo, int divisor)
+int division(int dividiendo, int divisor, float* total)
 {
-    if(divisor == 0)
+
+    (*total) = (float)dividiendo / divisor;
+
+    return SUCCESS;
+
+}
+/*
+funcionalidad: Pide un numero y despues lo guarda en su direccion de memoria.
+parametro: Char[] mensaje para el mensaje
+parametro: int* la direccion de memoria de una variable INT.
+retorno: Int Se devuelse si se pudo completar el ingreso o no (0/1)
+*/
+int ingresarNumero(char mensaje[],int* numero)
+{
+    int operacion = FAILURE;
+    printf("%s", mensaje);
+    if(scanf("%d", numero))
     {
-        printf("No se puede divir por Cero");
-        return -1;
+        operacion = SUCCESS;
     }
-
-    int total;
-
-    total = dividiendo / divisor;
-    printf("%d / %d = %d\n", dividiendo, divisor, total);
-    return 0;
-
-}
-/*
-funcionalidad: Se ingresa un valor entero por scanf y se lo almacena en una direcion de memoria.
-parametros: se pide una direccion de memoria de una variable INT.
-retorno: no devuelve nada.
-*/
-void ingresarNumero(int* numero)
-{
-    printf("Ingrese Un Numero : ");
-    scanf("%d", numero);
-    __fpurge(stdin);
+    return operacion;
 }
