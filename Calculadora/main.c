@@ -3,23 +3,30 @@
 #include <string.h>
 #include <stdio_ext.h>
 #include "math.h"
+#include "flag.h"
 
 #define clear(); printf("\033[H\033[J") // para linux
+#define ACTIVA 1 // para banderas
+#define INACTIVA 0
+
 int main()
 {
-    int opcion = 5;
+    int opcion;
 
-    int operandoDos;
-    int operandoUno;
+    float operandoDos;
+    float operandoUno;
 
-    int operandoUnoFlag = 0;
-    int operandoDosFlag = 0;
-    int divisionCeroFlag;
-    int calculosFlag = 0;
+    int operandoUnoFlag = INACTIVA;
+    int operandoDosFlag = INACTIVA;
+    int calculosFlag = INACTIVA;
 
-    int resultadoSuma;
-    int resultadoResta;
-    int resultadoMultiplicacion;
+    int divisionCeroFlag = INACTIVA;
+    int factorialUnoFlag = INACTIVA;
+    int factorialDosFlag = INACTIVA;
+
+    float resultadoSuma;
+    float resultadoResta;
+    float resultadoMultiplicacion;
     long long int resultadoFactorialUno;
     long long int resultadoFactorialDos;
     float resultadoDivision;
@@ -29,33 +36,51 @@ int main()
     do
     {
         printf("CALCULADORA, ingrese su opcion:\n");
-        printf("1.- Determinar el 1er Operando:\n");
-        printf("2.- Determinar el 2do Operando:\n");
-        printf("3.- Calcular Operaciones:\n");
+        printf("1.- Determinar el 1er Operando: ");
+        if(operandoUnoFlag)
+        {
+            printf("%0.2f", operandoUno);
+        }
+        printf("\n2.- Determinar el 2do Operando: ");
+        if(operandoDosFlag)
+        {
+            printf("%0.2f", operandoDos);
+        }
+        printf("\n3.- Calcular Operaciones:\n");
         printf("4.- Mostrar Resultados:\n");
         printf("5.- Salir:\n");
         printf("Su Opcion : ");
-        scanf("%d", &opcion);
+        if(!scanf("%d", &opcion))
+        {
+            opcion = 0;
+        }
 
         switch(opcion)
         {
         case 1:
+            __fpurge(stdin);
             if(ingresarNumero("Ingrese el Operando numero uno: ", &operandoUno))
             {
                 __fpurge(stdin);
-                printf("El Operando uno ahora es : %d\n", operandoUno);
-                operandoUnoFlag = 1;
+                printf("El Operando uno ahora es : %0.2f\n", operandoUno);
+                operandoUnoFlag = ACTIVA;
+                // desactiva la bandera ya que hay un nuevo valor
+                calculosFlag = INACTIVA;
             }
             else
             {
                 printf("ERROR: El nuevo operando uno que ingreso no es valido\n");
             }
+
+
             break;
         case 2:
-            if(ingresarNumero("Ingrese el Operando numero do: ", &operandoDos))
+            if(ingresarNumero("Ingrese el Operando numero dos: ", &operandoDos))
             {
-                printf("El Operando dos ahora es : %d\n", operandoDos);
-                operandoDosFlag = 2;
+                printf("El Operando dos ahora es : %0.2f\n", operandoDos);
+                operandoDosFlag = ACTIVA;
+                // desactiva la bandera ya que hay un nuevo valor
+                calculosFlag = INACTIVA;
             }
             else
             {
@@ -69,18 +94,22 @@ int main()
                 resultadoSuma = suma(operandoUno,operandoDos);
                 resultadoResta = resta(operandoUno,operandoDos);
                 resultadoMultiplicacion = multiplicacion(operandoUno,operandoDos);
-                factorialFlag = factorial(operandoUno);
-                resultadoFactorialDos = factorial(operandoDos);
-                if(!operandoDos)
+                if(transformarFlotatanteEntero(operandoUno) && operandoUno >= 0)
                 {
-                    divisionCeroFlag = 1;
+                    resultadoFactorialUno = factorial((int)operandoUno);
+                    factorialUnoFlag = ACTIVA;
                 }
-                else
+                if(transformarFlotatanteEntero(operandoDos)&& operandoDos >= 0)
                 {
-                    division(operandoUno, operandoDos, &resultadoDivision);
-
+                    resultadoFactorialDos = factorial((int)operandoDos);
+                    factorialDosFlag = ACTIVA;
                 }
-                calculosFlag = 1;
+                if(operandoDos)
+                {
+                    resultadoDivision = division(operandoUno, operandoDos);
+                    divisionCeroFlag = ACTIVA;
+                }
+                calculosFlag = ACTIVA;
             }
             else
             {
@@ -90,12 +119,33 @@ int main()
         case 4:
             if(calculosFlag)
             {
-                printf("Suma: %d + %d = %d\n", operandoUno, operandoDos, resultadoSuma);
-                printf("Resta: %d - %d = %d\n", operandoUno, operandoDos, resultadoResta);
-                printf("Multiplicacion: %d * %d = %d\n", operandoUno, operandoDos, resultadoMultiplicacion);
-                printf("Division: %d / %d = %f\n", operandoUno, operandoDos, resultadoDivision);
-                printf("Factorial del Primer Operando: %d! = %lld\n", operandoUno, resultadoFactorialUno);
-                printf("Factorial del Segundo Operando: %d! = %lld\n", operandoDos, resultadoFactorialDos);
+                printf("El resultado de (%0.2f)+(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoSuma);
+                printf("El resultado de (%0.2f)-(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoResta);
+                if(divisionCeroFlag)
+                {
+                    printf("El resultado de (%0.2f)/(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoDivision);
+                }
+                else
+                {
+                    printf("Division: No es posible dividir por cero\n");
+                }
+                printf("El resultado de (%0.2f)*(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoMultiplicacion);
+                if(factorialUnoFlag)
+                {
+                    printf("Factorial del Primer Operando: (%.0f)! = %lld y ", operandoUno, resultadoFactorialUno);
+                }
+                else
+                {
+                    printf("Factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorialy \n", operandoDos);
+                }
+                if(factorialDosFlag)
+                {
+                    printf("el factorial de (%.0f)! es: %lld\n", operandoDos, resultadoFactorialDos);
+                }
+                else
+                {
+                    printf("el factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorial\n", operandoDos);
+                }
             }
             else
             {
@@ -116,5 +166,7 @@ int main()
     }
     while(opcion != 5);
 
+
+    return 0;
 
 }

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio_ext.h>
-#include <limits.h>
 
 #define SUCCESS 1
 #define FAILURE 0
@@ -13,10 +12,10 @@ parametro: int Operador 1.
 parametro: int Operador 2.
 retorno: int el resultado de la Suma.
 */
-int suma(int sumando, int sumado)
+float suma(float sumando, float sumado)
 {
 
-    int total;
+    float total;
     total = sumando + sumado;
 
     return total;
@@ -27,9 +26,9 @@ parametro: int Operador 1.
 parametro: int Operador 2.
 retorno: int el resultado de la Resta.
 */
-int resta(int restando, int restado)
+float resta(float restando, float restado)
 {
-    int total;
+    float total;
 
     total = restando - restado;
 
@@ -42,10 +41,10 @@ parametro: int Operador 1.
 parametro: int Operador 2.
 retorno: int el resulatado de la Multiplicacion.
 */
-int multiplicacion(int multiplicando, int multiplicado)
+float multiplicacion(float multiplicando, float multiplicado)
 {
 
-    int total;
+    float total;
 
     total = multiplicando * multiplicado;
     return total;
@@ -73,13 +72,35 @@ parametro: int Divisor.
 parametro: float* la direccion de memoria donde se guarda el total
 retorno: int devuelve si se completo la operacion
 */
-int division(int dividiendo, int divisor, float* total)
+float division(float dividiendo, float divisor)
 {
+    float total;
 
-    (*total) = (float)dividiendo / divisor;
+    total = dividiendo / divisor;
 
-    return SUCCESS;
+    return total;
 
+}
+/*
+funcionalidad: Pide un numero y verifica si se puede convertir a un entero.
+parametro: Float el numero a convertir
+retorno: Int si es posible convertir el valor a entero.
+*/
+int transformarFlotatanteEntero(float numero)
+{
+    int operacion;
+    int parteEntera = (int)numero;
+    float parteDecimal = numero - parteEntera;
+
+    if(parteDecimal != 0.0f)
+    {
+        operacion = FAILURE;
+    }
+    else
+    {
+        operacion = SUCCESS;
+    }
+    return operacion;
 }
 /*
 funcionalidad: Pide un numero y despues lo guarda en su direccion de memoria.
@@ -87,11 +108,14 @@ parametro: Char[] mensaje para el mensaje
 parametro: int* la direccion de memoria de una variable INT.
 retorno: Int Se devuelse si se pudo completar el ingreso o no (0/1)
 */
-int ingresarNumero(char mensaje[],int* numero)
+int ingresarNumero(char mensaje[],float* numero)
 {
     int operacion = FAILURE;
+    int input[50];
+    int changes[10];
     printf("%s", mensaje);
-    if(scanf("%d", numero))
+    fgets(input, 50, stdin);
+    if(sscanf(input," %s %f ", changes, numero))
     {
         operacion = SUCCESS;
     }

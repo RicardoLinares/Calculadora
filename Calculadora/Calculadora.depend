@@ -49,3 +49,21 @@
 
 1535980950 source:/home/alumno/Documentos/linares/Calculadora/flag.c
 
+1536069055 source:/home/alumno/Documentos/Linares/repositorios/tp_laboratorio_1/Calculadora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+	"math.h"
+	"flag.h"
+
+1536068815 /home/alumno/Documentos/Linares/repositorios/tp_laboratorio_1/Calculadora/math.h
+
+1536069821 source:/home/alumno/Documentos/Linares/repositorios/tp_laboratorio_1/Calculadora/math.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdio_ext.h>
+
+1536061807 /home/alumno/Documentos/Linares/repositorios/tp_laboratorio_1/Calculadora/flag.h
+
