@@ -111,11 +111,9 @@ retorno: Int Se devuelse si se pudo completar el ingreso o no (0/1)
 int ingresarNumero(char mensaje[],float* numero)
 {
     int operacion = FAILURE;
-    int input[50];
-    int changes[10];
+
     printf("%s", mensaje);
-    fgets(input, 50, stdin);
-    if(sscanf(input," %s %f ", changes, numero))
+    if(scanf("%f", numero))
     {
         operacion = SUCCESS;
     }
