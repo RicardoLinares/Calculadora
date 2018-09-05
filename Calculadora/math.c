@@ -6,54 +6,61 @@
 #define SUCCESS 1
 #define FAILURE 0
 
-/*
-funcionalidad: Suma dos valores enteros y devuelve el resulado entero
-parametro: int Operador 1.
-parametro: int Operador 2.
-retorno: int el resultado de la Suma.
+/**
+*\brief Suma dos numeros y devuelve el resulado.
+*\param float Operador 1.
+*\param float Operador 2.
+*\return float El total de la Suma.
+*
 */
-float suma(float sumando, float sumado)
+float suma(float sumandoUno, float sumandoDos)
 {
 
     float total;
-    total = sumando + sumado;
-
-    return total;
-}
-/*
-funcionalidad: Resta dos valores enteros y devuelve el resulado entero
-parametro: int Operador 1.
-parametro: int Operador 2.
-retorno: int el resultado de la Resta.
-*/
-float resta(float restando, float restado)
-{
-    float total;
-
-    total = restando - restado;
+    total = sumandoUno + sumandoDos;
 
     return total;
 }
 
-/*
-funcionalidad: Resta dos valores enteros y devuelve el resulado flotante
-parametro: int Operador 1.
-parametro: int Operador 2.
-retorno: int el resulatado de la Multiplicacion.
+/**
+*\brief Resta dos numeros y devuelve el resulado.
+*\param float Operador 1.
+*\param float Operador 2.
+*\return float El total de la Resta.
+*
 */
-float multiplicacion(float multiplicando, float multiplicado)
+float resta(float restandoUno, float restandoDos)
+{
+    float total;
+
+    total = restandoUno - restandoDos;
+
+    return total;
+}
+
+/**
+*\brief Divide dos valores flotantes y devuelve el resulado.
+*\param float Multiplicando.
+*\param float Multiplicador.
+*\return float El total de la multiplicacion.
+*
+*/
+float multiplicacion(float multiplicando, float multiplicador)
 {
 
     float total;
 
-    total = multiplicando * multiplicado;
+    total = multiplicando * multiplicador;
     return total;
 }
 
-/*
-funcionalidad:
-parametros:
-retorno:
+
+
+/**
+*\brief Saca el factorial de un numero natural
+*\param int El numero que se le sacara el factorial
+*\return long long int El factorial del numero
+*
 */
 long long int factorial(int numero)
 {
@@ -65,12 +72,13 @@ long long int factorial(int numero)
     }
     return total;
 }
-/*
-funcionalidad: Resta dos valores enteros y devuelve el resulado flotante
-parametro: int Dividiendo.
-parametro: int Divisor.
-parametro: float* la direccion de memoria donde se guarda el total
-retorno: int devuelve si se completo la operacion
+
+/**
+*\brief Divide dos valores flotantes y devuelve el resulado.
+*\param float Dividiendo.
+*\param float Divisor.
+*\return float El total de la division.
+*
 */
 float division(float dividiendo, float divisor)
 {
@@ -81,10 +89,11 @@ float division(float dividiendo, float divisor)
     return total;
 
 }
-/*
-funcionalidad: Pide un numero y verifica si se puede convertir a un entero.
-parametro: Float el numero a convertir
-retorno: Int si es posible convertir el valor a entero.
+/**
+*\brief Pide un numero flotante y verifica si se puede convertir a un entero.
+*\param Float el numero a convertir
+*\return Int si es posible convertir el valor a entero.
+*
 */
 int transformarFlotatanteEntero(float numero)
 {
@@ -102,20 +111,17 @@ int transformarFlotatanteEntero(float numero)
     }
     return operacion;
 }
-/*
-funcionalidad: Pide un numero y despues lo guarda en su direccion de memoria.
-parametro: Char[] mensaje para el mensaje
-parametro: int* la direccion de memoria de una variable INT.
-retorno: Int Se devuelse si se pudo completar el ingreso o no (0/1)
+
+/**
+*\brief Pide un numero y despues lo guarda en su direccion de memoria.
+*\param Char[] mensaje para el mensaje
+*\param int* la direccion de memoria de una variable INT.
+*\return Int Se devuelse si se pudo completar el ingreso.
+*
 */
 int ingresarNumero(char mensaje[],float* numero)
 {
-    int operacion = FAILURE;
-
     printf("%s", mensaje);
-    if(scanf("%f", numero))
-    {
-        operacion = SUCCESS;
-    }
-    return operacion;
+    scanf("%f", numero);
+    return SUCCESS;
 }
