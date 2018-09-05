@@ -53,14 +53,14 @@ int main()
         {
             opcion = 0;
         }
-
+        __fpurge(stdin);
+        
         switch(opcion)
         {
         case 1:
-            __fpurge(stdin);
+            
             if(ingresarNumero("Ingrese el Operando numero uno: ", &operandoUno))
             {
-                __fpurge(stdin);
                 printf("El Operando uno ahora es : %0.2f\n", operandoUno);
                 operandoUnoFlag = ACTIVA;
                 // desactiva la bandera ya que hay un nuevo valor
@@ -74,7 +74,6 @@ int main()
 
             break;
         case 2:
-            __fpurge(stdin);
             if(ingresarNumero("Ingrese el Operando numero dos: ", &operandoDos))
             {
                 printf("El Operando dos ahora es : %0.2f\n", operandoDos);
@@ -136,7 +135,7 @@ int main()
                 }
                 else
                 {
-                    printf("Factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorialy \n", operandoDos);
+                    printf("Factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorial y ", operandoDos);
                 }
                 if(factorialDosFlag)
                 {
