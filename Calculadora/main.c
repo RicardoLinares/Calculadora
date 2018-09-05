@@ -3,9 +3,8 @@
 #include <string.h>
 #include <stdio_ext.h>
 #include "math.h"
-#include "flag.h"
 
-#define clear(); printf("\033[H\033[J") // para linux
+#define clear(); printf("\033[H\033[J") // limpia la consola .para linux
 #define ACTIVA 1 // para banderas
 #define INACTIVA 0
 
@@ -75,6 +74,7 @@ int main()
 
             break;
         case 2:
+            __fpurge(stdin);
             if(ingresarNumero("Ingrese el Operando numero dos: ", &operandoDos))
             {
                 printf("El Operando dos ahora es : %0.2f\n", operandoDos);
