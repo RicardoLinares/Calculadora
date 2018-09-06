@@ -5,157 +5,140 @@
 #include "math.h"
 
 #define clear(); printf("\033[H\033[J") // limpia la consola .para linux
-#define ACTIVA 1 // para banderas
-#define INACTIVA 0
+#define ACTIVE 1 // para banderas
+#define INACTIVE 0
 
 int main()
 {
-    int opcion;
+    int option;
 
-    float operandoDos;
-    float operandoUno;
+    float operatorTwo;
+    float operatorOne;
 
-    int operandoUnoFlag = INACTIVA;
-    int operandoDosFlag = INACTIVA;
-    int calculosFlag = INACTIVA;
+    int operatorOneFlag = INACTIVE;
+    int operatorTwoFlag = INACTIVE;
+    int calculosFlag = INACTIVE;
 
-    int divisionCeroFlag = INACTIVA;
-    int factorialUnoFlag = INACTIVA;
-    int factorialDosFlag = INACTIVA;
+    int divisionCeroFlag = INACTIVE;
+    int factorialOneFlag = INACTIVE;
+    int factorialTwoFlag = INACTIVE;
 
-    float resultadoSuma;
-    float resultadoResta;
-    float resultadoMultiplicacion;
-    long long int resultadoFactorialUno;
-    long long int resultadoFactorialDos;
-    float resultadoDivision;
+    float resultSum;
+    float resultResta;
+    float resultMultiplicacion;
+    long long int resultFactorialOne;
+    long long int resultFactorialTwo;
+    float resultDivision;
 
 
 
     do
     {
         printf("CALCULADORA, ingrese su opcion:\n");
-        printf("1.- Determinar el 1er Operando: ");
-        if(operandoUnoFlag)
+        printf("1.- Determinar el 1er operador: ");
+        if(operatorOneFlag)
         {
-            printf("%0.2f", operandoUno);
+            printf("%0.2f", operatorOne);
         }
-        printf("\n2.- Determinar el 2do Operando: ");
-        if(operandoDosFlag)
+        printf("\n2.- Determinar el 2do operador: ");
+        if(operatorTwoFlag)
         {
-            printf("%0.2f", operandoDos);
+            printf("%0.2f", operatorTwo);
         }
         printf("\n3.- Calcular Operaciones:\n");
-        printf("4.- Mostrar Resultados:\n");
+        printf("4.- Mostrar resultado:\n");
         printf("5.- Salir:\n");
-        printf("Su Opcion : ");
-        if(!scanf("%d", &opcion))
+        printf("Su option : ");
+        if(!scanf("%d", &option))
         {
-            opcion = 0;
+            option = 0;
         }
         __fpurge(stdin);
-        
-        switch(opcion)
+
+        switch(option)
         {
         case 1:
-            
-            if(ingresarNumero("Ingrese el Operando numero uno: ", &operandoUno))
-            {
-                printf("El Operando uno ahora es : %0.2f\n", operandoUno);
-                operandoUnoFlag = ACTIVA;
-                // desactiva la bandera ya que hay un nuevo valor
-                calculosFlag = INACTIVA;
-            }
-            else
-            {
-                printf("ERROR: El nuevo operando uno que ingreso no es valido\n");
-            }
 
-
+            ingresarNumero("Ingrese el operador numero uno: ", &operatorOne);
+            printf("El operador uno ahora es : %0.2f\n", operatorOne);
+            operatorOneFlag = ACTIVE;
+            calculosFlag = INACTIVE;
             break;
         case 2:
-            if(ingresarNumero("Ingrese el Operando numero dos: ", &operandoDos))
-            {
-                printf("El Operando dos ahora es : %0.2f\n", operandoDos);
-                operandoDosFlag = ACTIVA;
-                // desactiva la bandera ya que hay un nuevo valor
-                calculosFlag = INACTIVA;
-            }
-            else
-            {
-                printf("ERROR: El nuevo operando dos que ingreso no es valido\n");
-            }
-
+            ingresarNumero("Ingrese el operator numero Two: ", &operatorTwo);
+            printf("El operator Two ahora es : %0.2f\n", operatorTwo);
+            operatorTwoFlag = ACTIVE;
+            calculosFlag = INACTIVE;
             break;
         case 3:
-            if(operandoUnoFlag && operandoDosFlag)
+            if(operatorOneFlag && operatorTwoFlag)
             {
-                resultadoSuma = suma(operandoUno,operandoDos);
-                resultadoResta = resta(operandoUno,operandoDos);
-                resultadoMultiplicacion = multiplicacion(operandoUno,operandoDos);
-                if(transformarFlotatanteEntero(operandoUno) && operandoUno >= 0)
+                resultSum = suma(operatorOne,operatorTwo);
+                resultResta = resta(operatorOne,operatorTwo);
+                resultMultiplicacion = multiplicacion(operatorOne,operatorTwo);
+                if(transformarFlotatanteEntero(operatorOne) && operatorOne >= 0)
                 {
-                    resultadoFactorialUno = factorial((int)operandoUno);
-                    factorialUnoFlag = ACTIVA;
+                    resultFactorialOne = factorial((int)operatorOne);
+                    factorialOneFlag = ACTIVE;
                 }
-                if(transformarFlotatanteEntero(operandoDos)&& operandoDos >= 0)
+                if(transformarFlotatanteEntero(operatorTwo)&& operatorTwo >= 0)
                 {
-                    resultadoFactorialDos = factorial((int)operandoDos);
-                    factorialDosFlag = ACTIVA;
+                    resultFactorialTwo = factorial((int)operatorTwo);
+                    factorialTwoFlag = ACTIVE;
                 }
-                if(operandoDos)
+                if(operatorTwo)
                 {
-                    resultadoDivision = division(operandoUno, operandoDos);
-                    divisionCeroFlag = ACTIVA;
+                    resultDivision = division(operatorOne, operatorTwo);
+                    divisionCeroFlag = ACTIVE;
                 }
-                calculosFlag = ACTIVA;
+                calculosFlag = ACTIVE;
             }
             else
             {
-                printf("ERROR: Ingrese los Operandos con las dos primeras opciones\n");
+                printf("ERROR: Ingrese los operadores con las dos primeras opciones\n");
             }
             break;
         case 4:
             if(calculosFlag)
             {
-                printf("El resultado de (%0.2f)+(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoSuma);
-                printf("El resultado de (%0.2f)-(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoResta);
+                printf("El resultado de (%0.2f)+(%0.2f) es: %0.2f\n", operatorOne, operatorTwo, resultSum);
+                printf("El resultado de (%0.2f)-(%0.2f) es: %0.2f\n", operatorOne, operatorTwo, resultResta);
                 if(divisionCeroFlag)
                 {
-                    printf("El resultado de (%0.2f)/(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoDivision);
+                    printf("El resultado de (%0.2f)/(%0.2f) es: %0.2f\n", operatorOne, operatorTwo, resultDivision);
                 }
                 else
                 {
-                    printf("Division: No es posible dividir por cero\n");
+                    printf("El resultado de (%0.2f)/(%0.2f): No es posible dividir por cero\n", operatorOne, operatorTwo);
                 }
-                printf("El resultado de (%0.2f)*(%0.2f) es: %0.2f\n", operandoUno, operandoDos, resultadoMultiplicacion);
-                if(factorialUnoFlag)
+                printf("El resultado de (%0.2f)*(%0.2f) es: %0.2f\n", operatorOne, operatorTwo, resultMultiplicacion);
+                if(factorialOneFlag)
                 {
-                    printf("Factorial del Primer Operando: (%.0f)! = %lld y ", operandoUno, resultadoFactorialUno);
-                }
-                else
-                {
-                    printf("Factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorial y ", operandoDos);
-                }
-                if(factorialDosFlag)
-                {
-                    printf("el factorial de (%.0f)! es: %lld\n", operandoDos, resultadoFactorialDos);
+                    printf("Factorial del Primer operador: (%.0f)! = %lld y ", operatorOne, resultFactorialOne);
                 }
                 else
                 {
-                    printf("el factorial de (%0.2f)! es: El numero debe ser Natural para calcular factorial\n", operandoDos);
+                    printf("Factorial del Primer operador: (%0.2f)! = El numero debe ser Natural para calcular factorial y ", operatorTwo);
+                }
+                if(factorialTwoFlag)
+                {
+                    printf("el factorial del Segundo operador: (%.0f)! = %lld\n", operatorTwo, resultFactorialTwo);
+                }
+                else
+                {
+                    printf("el factorial del Segundo operador: (%.0f)! = El numero debe ser Natural para calcular factorial\n", operatorTwo);
                 }
             }
             else
             {
-                printf("ERROR: Para mostrar los resultados se requiere calcular(Opcion 3)...\n");
+                printf("ERROR: Para mostrar los resultado se requiere calcular(opcion 3)...\n");
             }
             break;
         case 5:
             printf("HASTA LUEGO!!\n");
             break;
         default:
-            printf("No ingreso una Opcion valida\n");
+            printf("No ingreso una option valida\n");
             break;
         }
         __fpurge(stdin);
@@ -163,7 +146,7 @@ int main()
         getchar();
         clear();
     }
-    while(opcion != 5);
+    while(option != 5);
 
 
     return 0;
