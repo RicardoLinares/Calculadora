@@ -15,7 +15,7 @@ typedef struct
 
 Employee* employee_new(void);
 Employee* employee_newParametros(char*,char*,char*, char*);
-void employee_delete();
+void employee_delete(Employee* this);
 
 int employee_setId(Employee* this,int id);
 int employee_getId(Employee* this,int* id);
@@ -31,4 +31,7 @@ int employee_getSueldo(Employee* this,int* sueldo);
 
 int employee_print(Employee* this);
 
+
+int employee_ordenSueldo(void* cajaA,void* cajaB);
+int employee_ordenHoras(void* cajaA,void* cajaB);
 #endif // employee_H_INCLUDED

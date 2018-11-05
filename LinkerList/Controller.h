@@ -18,11 +18,13 @@ int controller_getNextID(LinkedList* pArrayListEmployee);
 
 Employee* controller_findEmployeeByID(LinkedList* pArrayListEmployee);
 
+LinkedList* controller_printListSubMenu(LinkedList* pArrayListEmployee, int len, int from, int actualPage);
+
 int controller_inputEmployeeName(Employee*);
 int controller_inputEmployeeSalary(Employee*);
 int controller_inputEmployeeWorkHours(Employee*);
 
-int controller_printList(LinkedList* pArrayListEmployee, int elements);
+int controller_printList(LinkedList* pArrayListEmployee);
 int controller_previusListPage(int*, int*, int);
 
 int controller_nextListPage(int* page, int* startIndex, int length);
@@ -32,3 +34,5 @@ int controller_editEmployeeMenu(Employee* oldEmployee);
 
 
 int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target);
+
+int controller_deleteListEmployee(LinkedList* pArrayListEmployee);

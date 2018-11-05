@@ -30,7 +30,7 @@ int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
             else
             {
                 printf("\n ERROR: SE ENCONTRO UN ELEMNTO INCOMPATIBLE\n");
-                ll_clear(pArrayListEmployee);
+                controller_deleteListEmployee(pArrayListEmployee);
                 i = 0;
                 break;
             }
@@ -57,16 +57,25 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
     pArchivo = fopen(path,"rb");
     if(pArchivo != NULL)
     {
+        while(!feof(pArchivo))
+        {
 
-        empleadoAux = employee_new();
-        fread(empleadoAux,sizeof(Employee),10000,pArchivo);
-        if(empleadoAux != NULL)
-        {
-            ll_add(pArrayListEmployee, empleadoAux);
-        }
-        else
-        {
-            printf("\n ERROR AL AÑADIR UN ELEMNTO EMPLOYEE\n");
+            empleadoAux = (Employee*) malloc(sizeof(Employee));
+            fread(empleadoAux,sizeof(Employee), 1, pArchivo);
+            if(feof(pArchivo))
+            {
+                break;
+            }
+            if(empleadoAux != NULL)
+            {
+                ll_add(pArrayListEmployee, empleadoAux);
+            }
+            else
+            {
+                printf("\n ERROR AL AÑADIR UN ELEMNTO EMPLOYEE\n");
+            }
+
+
         }
         estado = 0;
         fclose(pArchivo);
@@ -128,10 +137,8 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
     Employee* targetEmployee;
     LinkedList* subLista;
     int subListaInicio = 0;
-    int subListaFin;
-    int subListaLen;
     int len;
-    char option = 's';
+    char option;
     int pagina = 0;
     if(pArrayListEmployee != NULL)
     {
@@ -141,20 +148,9 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                if(len < subListaInicio + 30)
-                {
-                    subListaFin = len;
-                }
-                else
-                {
-                    subListaFin = subListaInicio + 30;
-                }
-                subLista = ll_subList(pArrayListEmployee,subListaInicio,subListaFin);
-                subListaLen = ll_len(subLista);
-                printf("Lista de empleados: Pagina %d de %d\n",pagina + 1, 1+(len / 30));
-                printf("A)Pagina Anterior: D) Pagina Siguiente: W)Ir a pagina: S) Salir\n");
+                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
                 printf("E) Ingresar el Id de el empleado a modificar: \n");
-                controller_printList(subLista, subListaLen);
+                controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
 
                 fflush(stdin);
@@ -173,7 +169,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
                     break;
                 case 'e':
                     targetEmployee = controller_findEmployeeByID(pArrayListEmployee);
-
+                    controller_editEmployeeMenu(targetEmployee);
                     break;
                 default:
                     break;
@@ -202,8 +198,6 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
     LinkedList* subLista;
     int empleadoEliminadoFlag;
     int subListaInicio = 0;
-    int subListaFin;
-    int subListaLen;
     int len;
     char option = 's';
     int pagina = 0;
@@ -215,20 +209,9 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                if(len < subListaInicio + 30)
-                {
-                    subListaFin = len;
-                }
-                else
-                {
-                    subListaFin = subListaInicio + 30;
-                }
-                subLista = ll_subList(pArrayListEmployee,subListaInicio,subListaFin);
-                subListaLen = ll_len(subLista);
-                printf("Lista de empleados: Pagina %d de %d\n",pagina + 1, 1+(len / 30));
-                printf("A)Pagina Anterior: D) Pagina Siguiente: W)Ir a pagina: S) Salir\n");
+                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
                 printf("E) Ingresar el Id de el empleado a eleminar: \n");
-                controller_printList(subLista, subListaLen);
+                controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
 
                 fflush(stdin);
@@ -247,7 +230,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
                     break;
                 case 'e':
                     targetEmployee = controller_findEmployeeByID(pArrayListEmployee);
-                     empleadoEliminadoFlag = controller_deleteEmployee(pArrayListEmployee,targetEmployee);
+                    empleadoEliminadoFlag = controller_deleteEmployee(pArrayListEmployee,targetEmployee);
                     if(empleadoEliminadoFlag == 0)
                     {
                         len = ll_len(pArrayListEmployee);
@@ -283,8 +266,6 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     int estado = -1;
     LinkedList* subLista;
     int subListaInicio = 0;
-    int subListaFin;
-    int subListaLen;
     int len;
     char option = 's';
     int pagina = 0;
@@ -295,19 +276,8 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                if(len < subListaInicio + 30)
-                {
-                    subListaFin = len;
-                }
-                else
-                {
-                    subListaFin = subListaInicio + 30;
-                }
-                subLista = ll_subList(pArrayListEmployee,subListaInicio,subListaFin);
-                subListaLen = ll_len(subLista);
-                printf("Lista de empleados: Pagina %d de %d\n",pagina + 1, 1+(len / 30));
-                printf("A)Pagina Anterior: D) Pagina Siguiente: W)Ir a pagina: S) Salir\n");
-                controller_printList(subLista, subListaLen);
+                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
+                controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
 
                 fflush(stdin);
@@ -337,18 +307,24 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     return estado;
 }
 
-int controller_printList(LinkedList* pArrayListEmployee, int elements)
+int controller_printList(LinkedList* pArrayListEmployee)
 {
     int i;
+    int elements;
     Employee* pEmpleadoAux;
-    if(pArrayListEmployee != NULL && elements > 0)
+    if(pArrayListEmployee != NULL)
     {
-        printf("%5s %20s %10s %12s","ID", "NOMBRE", "SUELDO", "HORAS TRABAJADAS\n");
-        for(i=0; i < elements; i++)
+        elements = ll_len(pArrayListEmployee);
+        if(elements > 0)
         {
-            pEmpleadoAux = ll_get(pArrayListEmployee, i);
-            employee_print(pEmpleadoAux);
-        }/**/
+            printf("%5s %20s %10s %12s","ID", "NOMBRE", "SUELDO", "HORAS TRABAJADAS\n");
+            for(i=0; i < elements; i++)
+            {
+                pEmpleadoAux = ll_get(pArrayListEmployee, i);
+                employee_print(pEmpleadoAux);
+            }/**/
+        }
+
 
     }
     return i;
@@ -361,8 +337,55 @@ int controller_printList(LinkedList* pArrayListEmployee, int elements)
  *
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
-{
-    return 1;
+{int estado = -1;
+    LinkedList* displayList;
+    LinkedList* subLista;
+    int subListaInicio = 0;
+    int len;
+    char option;
+    int pagina = 0;
+    if(pArrayListEmployee != NULL)
+    {
+        displayList = ll_clone(pArrayListEmployee);
+        system("cls");
+        len = ll_len(displayList);
+        if(len > 0)
+        {
+            do
+            {
+                subLista = controller_printListSubMenu(displayList,len,subListaInicio,pagina);
+                printf("E) Cambiar Criteria de ordenamiento: \n");
+                controller_printList(subLista);
+                ll_deleteLinkedList(subLista);
+
+                fflush(stdin);
+                option = getche();
+                option = tolower(option);
+                switch(option)
+                {
+                case 'a':
+                    controller_previusListPage(&pagina,&subListaInicio,len);
+                    break;
+                case 'd':
+                    controller_nextListPage(&pagina,&subListaInicio,len);
+                    break;
+                case 'w':
+                    controller_goToListPage(&pagina,&subListaInicio,len);
+                    break;
+                case 'e':
+                    ll_sort(displayList,employee_ordenHoras,1);
+                    break;
+                default:
+                    break;
+                }
+                system("cls");
+
+            }
+            while(option != 's');
+            estado = 0;
+        }
+    }
+    return estado;
 }
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
@@ -403,7 +426,10 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
             employee_getHorasTrabajadas(empleadoAux,horasAux);
             fprintf(pArchivo,"%d,%s,%d,%d\n",*idAux,nameAux,*sueldoAux,*horasAux);
         }
-
+        free(nameAux);
+        free(idAux);
+        free(sueldoAux);
+        free(horasAux);
         fclose(pArchivo);
     }
     return estado;
@@ -420,17 +446,19 @@ int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 {
     int estado = -1;
     FILE* pArchivo;
-    Employee* empleadoAux;
-    int i;
+    Employee* employeeAux;
+    int i = 0;
     int listLen;
     if(pArrayListEmployee != NULL && path != NULL)
     {
 
         pArchivo = fopen(path,"wb");
         listLen = ll_len(pArrayListEmployee);
-        empleadoAux = (Employee*)ll_get(pArrayListEmployee,i);
-        fwrite(pArrayListEmployee, sizeof(LinkedList),1,pArchivo);
-
+        for(i=0; i< listLen; i++)
+        {
+            employeeAux = (Employee*)ll_get(pArrayListEmployee,i);
+            fwrite(employeeAux, sizeof(Employee),1,pArchivo);
+        }
         fclose(pArchivo);
     }
     return estado;
@@ -530,7 +558,8 @@ int controller_inputEmployeeWorkHours(Employee* empleado)
 }
 int controller_getNextID(LinkedList* pArrayListEmployee)
 {
-    int id = -2;
+    int id = 0;
+    int idAnterior;
     int auxiliar;
     Employee* employeeAux;
     int listLen;
@@ -547,8 +576,13 @@ int controller_getNextID(LinkedList* pArrayListEmployee)
                 employee_getId(employeeAux,&auxiliar);
                 if(auxiliar > id)
                 {
-
+                    idAnterior = id;
                     id = auxiliar;
+                    if(idAnterior + 1 != id)
+                    {
+                        id = idAnterior;
+                        break;
+                    }
                 }
             }
             id++;
@@ -566,8 +600,14 @@ int controller_getNextID(LinkedList* pArrayListEmployee)
 int controller_previusListPage(int* page, int* startIndex, int length)
 {
     int estado = -1;
+    int cantidadPaginas;
     if(page != NULL && startIndex != NULL)
     {
+        cantidadPaginas = length/PAGE_SIZE;
+        if(length%PAGE_SIZE == 0)
+        {
+            cantidadPaginas--;
+        }
         if(*page != 0)
         {
             *startIndex -= PAGE_SIZE;
@@ -575,8 +615,16 @@ int controller_previusListPage(int* page, int* startIndex, int length)
         }
         else
         {
-            *startIndex = PAGE_SIZE * (length/PAGE_SIZE);
-            *page = (length/PAGE_SIZE);
+            if(length%PAGE_SIZE != 0)
+            {
+                *startIndex = length - (length%PAGE_SIZE);
+                *page = cantidadPaginas;
+            }
+            else
+            {
+                *startIndex = length - PAGE_SIZE;
+                *page = cantidadPaginas - 1;
+            }
         }
         estado = 0;
     }
@@ -586,9 +634,15 @@ int controller_previusListPage(int* page, int* startIndex, int length)
 int controller_nextListPage(int* page, int* startIndex, int length)
 {
     int estado = -1;
+    int cantidadPaginas;
     if(page != NULL && startIndex != NULL)
     {
-        if(*page != length/PAGE_SIZE)
+        cantidadPaginas = length/PAGE_SIZE;
+        if(length%PAGE_SIZE == 0)
+        {
+            cantidadPaginas--;
+        }
+        if(*page != cantidadPaginas)
         {
             *startIndex += PAGE_SIZE;
             *page += 1;
@@ -607,11 +661,17 @@ int controller_goToListPage(int* page, int* startIndex, int length)
 {
     int estado = -1;
     int auxiliar;
+    int cantidadPaginas;
     if(page != NULL && startIndex != NULL)
     {
+        cantidadPaginas = length/PAGE_SIZE;
+        if(length%PAGE_SIZE == 0)
+        {
+            cantidadPaginas--;
+        }
         printf(") Indique la pagina donde quiere ir: ");
         scanf("%d", &auxiliar);
-        if(auxiliar > 0 && auxiliar <= (length/PAGE_SIZE)+1)
+        if(auxiliar > 0 && auxiliar <= cantidadPaginas+1)
         {
             *page = auxiliar - 1;
             *startIndex = (auxiliar - 1) * PAGE_SIZE;
@@ -654,6 +714,7 @@ Employee* controller_findEmployeeByID(LinkedList* pArrayListEmployee)
 
 int controller_editEmployeeMenu(Employee* oldEmployee)
 {
+    int estado = -1;
     Employee* newEmployee;
     char option;
     int salir = -1;
@@ -661,9 +722,11 @@ int controller_editEmployeeMenu(Employee* oldEmployee)
     if(oldEmployee != NULL)
     {
 
+        newEmployee = employee_new();
         *newEmployee = *oldEmployee;
         do
         {
+            system("cls");
             printf("Empleado Original: ");
             printf("%5s %20s %10s %12s","ID", "NOMBRE", "SUELDO", "HORAS TRABAJADAS\n");
             employee_print(oldEmployee);
@@ -672,11 +735,11 @@ int controller_editEmployeeMenu(Employee* oldEmployee)
 
             employee_print(newEmployee);
 
-            printf("A) Cambiar Nombre.");
-            printf("D) Cambiar Sueldo.");
-            printf("W) Cambiar Horas Trabajadas.");
-            printf("S) Guardar Y Salir.");
-            printf("C) Cancelar Cambios.");
+            printf("A) Cambiar Nombre.\n");
+            printf("D) Cambiar Sueldo.\n");
+            printf("W) Cambiar Horas Trabajadas.\n");
+            printf("S) Guardar Y Salir.\n");
+            printf("Q) Cancelar Cambios.\n");
 
             fflush(stdin);
             option = getche();
@@ -702,10 +765,12 @@ int controller_editEmployeeMenu(Employee* oldEmployee)
                 salir = 0;
                 break;
             }
-        }while(salir != 0);
-
-        free(oldEmployee);
+        }
+        while(salir != 0);
+        estado = 0;
+        free(newEmployee);
     }
+    return estado;
 }
 
 int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target)
@@ -734,8 +799,11 @@ int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target)
             if(!stricmp(buffer, "SI"))
             {
                 id = ll_indexOf(pArrayListEmployee,target);
-                if(!ll_remove(pArrayListEmployee,id))
+                target = ll_pop(pArrayListEmployee,id);
+
+                if(target != NULL)
                 {
+                    employee_delete(target);
                     printf("Empleado Eliminado...");
                     estado = 0;
                 }
@@ -759,4 +827,58 @@ int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target)
         free(buffer);
     }
     return estado;
+}
+LinkedList* controller_printListSubMenu(LinkedList* pArrayListEmployee, int len, int from, int actualPage)
+{
+    LinkedList* subLista = NULL;
+    int to;
+    int totalPages;
+    if(pArrayListEmployee != NULL)
+    {
+        totalPages = len / PAGE_SIZE;
+        if(len%PAGE_SIZE == 0)
+        {
+            totalPages--;
+        }
+
+        if(len < from + PAGE_SIZE)
+        {
+            to = len;
+        }
+        else
+        {
+            to = from + PAGE_SIZE;
+        }
+        subLista = ll_subList(pArrayListEmployee,from,to);
+        printf("Lista de empleados: Pagina %d de %d\n",actualPage + 1, totalPages + 1);
+        printf("A)Pagina Anterior: D) Pagina Siguiente: W)Ir a pagina: S) Salir\n");
+
+    }
+
+    return subLista;
+}
+
+
+int controller_deleteListEmployee(LinkedList* pArrayListEmployee)
+{
+    int estado = -1;
+    int len;
+    int i;
+    Employee* pEmployee;
+    if(pArrayListEmployee != NULL)
+    {
+        len = ll_len(pArrayListEmployee);
+        if(len > 0)
+        {
+            for(i=0; i<len; i++)
+            {
+                pEmployee = ll_get(pArrayListEmployee, i);
+                employee_delete(pEmployee);
+            }
+            ll_deleteLinkedList(pArrayListEmployee);
+            estado = 0;
+        }
+    }
+    return estado;
+
 }

@@ -80,6 +80,9 @@ int main()
         case 6:
             controller_ListEmployee(listaEmpleados);
             break;
+             case 7:
+            controller_sortEmployee(listaEmpleados);
+            break;
         case 8:
             controller_saveAsText("data.csv",listaEmpleados);
             break;
@@ -99,5 +102,7 @@ int main()
         system("cls");
     }
     while(option != 10);
+
+    controller_deleteListEmployee(listaEmpleados);
     return 0;
 }

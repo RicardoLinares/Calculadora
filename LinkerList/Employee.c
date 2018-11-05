@@ -19,6 +19,13 @@ Employee* employee_new()
     return newEmploye;
 }
 
+void employee_delete(Employee* this)
+{
+    if(this != NULL)
+    {
+        free(this);
+    }
+}
 
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr)
 {
@@ -196,5 +203,67 @@ int employee_print(Employee* this)
         employee_getSueldo(this,&sueldo);
         printf("%5d %20s %10d %15d\n", id, employee_getNombre(this), sueldo, horas);
     }
+    return estado;
+}
+
+int employee_ordenHoras(void* cajaA,void* cajaB)
+{
+    int estado = -1;
+    Employee* empleadoA;
+    Employee* empleadoB;
+    int horasA;
+    int horasB;
+    if(cajaA != NULL && cajaB != NULL)
+    {
+        empleadoA = (Employee*) cajaA;
+        empleadoB = (Employee*) cajaB;
+        if(empleadoA != NULL && empleadoB != NULL)
+        {
+            employee_getHorasTrabajadas(empleadoA,&horasA);
+            employee_getHorasTrabajadas(empleadoB,&horasB);
+
+            if(horasA > horasB)
+            {
+                estado = 1;
+            }
+            else if(horasA == horasB)
+            {
+                estado = 0;
+            }
+
+        }
+    }
+
+    return estado;
+}
+
+int employee_ordenSueldo(void* cajaA,void* cajaB)
+{
+    int estado = -1;
+    Employee* empleadoA;
+    Employee* empleadoB;
+    int sueldoA;
+    int sueldoB;
+    if(cajaA != NULL && cajaB != NULL)
+    {
+        empleadoA = (Employee*) cajaA;
+        empleadoB = (Employee*) cajaB;
+        if(empleadoA != NULL && empleadoB != NULL)
+        {
+            employee_getSueldo(empleadoA,&sueldoA);
+            employee_getSueldo(empleadoB,&sueldoB);
+
+            if(sueldoA > sueldoB)
+            {
+                estado = 1;
+            }
+            else if(sueldoA == sueldoB)
+            {
+                estado = 0;
+            }
+
+        }
+    }
+
     return estado;
 }
