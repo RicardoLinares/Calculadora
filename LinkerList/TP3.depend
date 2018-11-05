@@ -84,3 +84,41 @@
 
 1533133022 d:\linares\tp_laboratorio_1\linkerlist\controller.h
 
+1540925275 source:c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+
+1540925275 c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\linkedlist.h
+
+1541274851 c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\employee.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1541377919 source:c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\controller.c
+	"Controller.h"
+
+1541332081 source:c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\employee.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Employee.h"
+
+1541376825 source:c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Controller.h"
+	"Employee.h"
+
+1541375440 c:\users\relinoylli\desktop\linares\tp_laboratorio_1\linkerlist\controller.h
+	"Employee.h"
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<conio.h>
+	"LinkedList.h"
+
