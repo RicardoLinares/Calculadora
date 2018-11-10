@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1541864359 source:d:\linares\tp2eployees\arrayemployees.c
+	"ArrayEmployees.h"
+
+1541864900 d:\linares\tp2eployees\arrayemployees.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1541864616 source:d:\linares\tp2eployees\main.c
+	<stdio.h>
+	<stdlib.h>
+	"ArrayEmployees.h"
+
