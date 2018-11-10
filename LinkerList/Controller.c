@@ -210,7 +210,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
             do
             {
                 subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
-                printf("E) Ingresar el Id de el empleado a eleminar: \n");
+                printf("E) Ingresar el Id de el empleado a eliminar: \n");
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
 
@@ -276,6 +276,7 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
+                            system("cls");
                 subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
@@ -337,7 +338,8 @@ int controller_printList(LinkedList* pArrayListEmployee)
  *
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
-{int estado = -1;
+{
+    int estado = -1;
     LinkedList* displayList;
     LinkedList* subLista;
     int subListaInicio = 0;
@@ -373,7 +375,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
                     controller_goToListPage(&pagina,&subListaInicio,len);
                     break;
                 case 'e':
-                    ll_sort(displayList,employee_ordenHoras,1);
+                    controller_selectSortCriteria(displayList);
                     break;
                 default:
                     break;
@@ -473,11 +475,14 @@ int controller_inputEmployeeName(Employee* empleado)
     int length;
     if(empleado != NULL)
     {
+        system("cls");
         printf("Ingrese el Nombre del Empleado: ");
         do
         {
+
             if(errorFlag != 0)
             {
+
                 printf("ERROR: Reingrese el Nombre del Empleado: ");
             }
             fflush(stdin);
@@ -504,6 +509,7 @@ int controller_inputEmployeeSalary(Employee* empleado)
     int errorFlag = 0;
     if(empleado != NULL)
     {
+        system("cls");
         printf("Ingrese el Sueldo del Empleado: ");
         do
         {
@@ -534,6 +540,7 @@ int controller_inputEmployeeWorkHours(Employee* empleado)
     int errorFlag = 0;
     if(empleado != NULL)
     {
+        system("cls");
         printf("Ingrese la Horas trabajadas por el Empleado: ");
         do
         {
@@ -623,7 +630,7 @@ int controller_previusListPage(int* page, int* startIndex, int length)
             else
             {
                 *startIndex = length - PAGE_SIZE;
-                *page = cantidadPaginas - 1;
+                *page = cantidadPaginas;
             }
         }
         estado = 0;
@@ -680,7 +687,102 @@ int controller_goToListPage(int* page, int* startIndex, int length)
     }
     return estado;
 }
+int controller_selectSortCriteria(LinkedList* pArrayListEmployee)
+{
+    int estado = -1;
+    int orden = -1;
+    int opcion;
 
+    if(pArrayListEmployee != NULL)
+    {
+        do
+        {
+            system("cls");
+            printf("Eliga el tipo de orden:\n");
+            printf("A) Ordenar por nombre.\n");
+            printf("D) Ordenar por sueldo.\n");
+            printf("W) Ordenar por horas trabjadas.\n");
+            printf("S) Cancelar.\n");
+
+            fflush(stdin);
+            opcion = getche();
+            opcion = tolower(opcion);
+            switch(opcion)
+            {
+            case 'a':
+            case 'd':
+            case 'w':
+                orden = controller_sortTypeOfOrder();
+                break;
+            case 's':
+                break;
+            default:
+                break;
+            }
+
+        }
+        while(opcion != 's' && orden == -1);
+        if(opcion != 's')
+        {
+        printf("\n Ordenando Elementos...");
+        switch(opcion)
+        {
+            case 'a':
+                ll_sort(pArrayListEmployee,employee_ordenNombre,orden);
+                break;
+            case 'd':
+                ll_sort(pArrayListEmployee,employee_ordenSueldo,orden);
+                break;
+            case 'w':
+                ll_sort(pArrayListEmployee,employee_ordenHoras,orden);
+                break;
+        }
+            estado = 0;
+        }
+    }
+
+
+    return estado;
+}
+
+int controller_sortTypeOfOrder(void)
+{
+    int order;
+    int opcion;
+    do
+    {
+        system("cls");
+        if(opcion == '0')
+        {
+            printf("(ERROR)");
+        }
+        printf("Eliga una de las siguientes opciones:\n");
+        printf("A) Orden acendente.\n");
+        printf("D) Orden decendiente.\n");
+        printf("S) Cancelar.\n");
+
+        fflush(stdin);
+        opcion = getche();
+        opcion = tolower(opcion);
+
+        switch(opcion)
+        {
+        case 'a':
+            order = 1;
+            break;
+        case 'd':
+            order = 0;
+            break;
+        case 's':
+            order = -1;
+            break;
+        default:
+            break;
+        }
+    }
+    while(opcion == '0');
+    return order;
+}
 Employee* controller_findEmployeeByID(LinkedList* pArrayListEmployee)
 {
     Employee* employee = NULL;

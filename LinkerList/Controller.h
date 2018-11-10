@@ -36,3 +36,7 @@ int controller_editEmployeeMenu(Employee* oldEmployee);
 int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target);
 
 int controller_deleteListEmployee(LinkedList* pArrayListEmployee);
+
+int controller_selectSortCriteria(LinkedList* pArrayListEmployee);
+
+int controller_sortTypeOfOrder(void);

@@ -208,7 +208,7 @@ int employee_print(Employee* this)
 
 int employee_ordenHoras(void* cajaA,void* cajaB)
 {
-    int estado = -1;
+    int estado = 1;
     Employee* empleadoA;
     Employee* empleadoB;
     int horasA;
@@ -224,7 +224,7 @@ int employee_ordenHoras(void* cajaA,void* cajaB)
 
             if(horasA > horasB)
             {
-                estado = 1;
+                estado = -1;
             }
             else if(horasA == horasB)
             {
@@ -239,7 +239,7 @@ int employee_ordenHoras(void* cajaA,void* cajaB)
 
 int employee_ordenSueldo(void* cajaA,void* cajaB)
 {
-    int estado = -1;
+    int estado = 1;
     Employee* empleadoA;
     Employee* empleadoB;
     int sueldoA;
@@ -255,13 +255,36 @@ int employee_ordenSueldo(void* cajaA,void* cajaB)
 
             if(sueldoA > sueldoB)
             {
-                estado = 1;
+                estado = -1;
             }
             else if(sueldoA == sueldoB)
             {
                 estado = 0;
             }
 
+        }
+    }
+
+    return estado;
+}
+
+int employee_ordenNombre(void* cajaA,void* cajaB)
+{
+    int estado = -2;
+    Employee* empleadoA;
+    Employee* empleadoB;
+    char* nombreA;
+    char* nombreB;
+    if(cajaA != NULL && cajaB != NULL)
+    {
+        empleadoA = (Employee*) cajaA;
+        empleadoB = (Employee*) cajaB;
+        if(empleadoA != NULL && empleadoB != NULL)
+        {
+            nombreA = employee_getNombre(cajaA);
+            nombreB = employee_getNombre(cajaB);
+
+            estado = strcasecmp(nombreA,nombreB);
         }
     }
 

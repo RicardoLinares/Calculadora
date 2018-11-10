@@ -34,4 +34,5 @@ int employee_print(Employee* this);
 
 int employee_ordenSueldo(void* cajaA,void* cajaB);
 int employee_ordenHoras(void* cajaA,void* cajaB);
+int employee_ordenNombre(void* cajaA,void* cajaB);
 #endif // employee_H_INCLUDED

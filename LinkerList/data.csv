@@ -1,4 +1,5 @@
 id,nombre,horasTrabajadas,sueldo
+1,Lou,10000,120
 2,Ulrike,25000,180
 3,Brade,20000,325
 4,Kimbell,50000,120
@@ -989,4 +990,13 @@ id,nombre,horasTrabajadas,sueldo
 989,Wandie,25000,60
 990,Chiarra,18000,325
 991,Zaccaria,33000,88
-1000,Ricardo,200000,1
+992,Trenna,10000,90
+993,Angelia,50000,60
+994,Raquela,12000,180
+995,Maxi,18000,325
+996,Atalanta,37000,90
+997,De witt,12000,88
+998,Jaye,25000,75
+999,Tamarra,15000,60
+1000,Saleem,20000,60
+1001,PEPE,2000000,100

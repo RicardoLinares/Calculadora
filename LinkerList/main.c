@@ -23,9 +23,11 @@ int main()
 {
     int option = 0;
     int elementosCargados = 0;
+    int proceso;
     LinkedList* listaEmpleados = ll_newLinkedList();
     do
     {
+        proceso = 0;
         printf("Lista de Empleados:\n");
         printf("1.  Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n");
         printf("2.  Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n");
@@ -72,16 +74,16 @@ int main()
             controller_addEmployee(listaEmpleados);
             break;
         case 4:
-            controller_editEmployee(listaEmpleados);
+            proceso = controller_editEmployee(listaEmpleados);
             break;
         case 5:
-            controller_removeEmployee(listaEmpleados);
+            proceso = controller_removeEmployee(listaEmpleados);
             break;
         case 6:
-            controller_ListEmployee(listaEmpleados);
+            proceso = controller_ListEmployee(listaEmpleados);
             break;
              case 7:
-            controller_sortEmployee(listaEmpleados);
+            proceso = controller_sortEmployee(listaEmpleados);
             break;
         case 8:
             controller_saveAsText("data.csv",listaEmpleados);
@@ -95,6 +97,10 @@ int main()
         default:
             printf("No ingreso una Opcion Valida\n");
             break;
+        }
+        if(proceso != 0)
+        {
+            printf("Esta Opcion requiere empleados en la lista para usarse\n");
         }
         printf("Presione cualuqier tecla para continuar...");
             fflush(stdin);
