@@ -1,59 +1,63 @@
 #include "Controller.h"
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
 {
     FILE* pArchivo;
     char idAux[100];
     char nameAux[TAMANIO_NOMBRE];
     char workHoursAux[100];
+    int i = -1;
     char salaryAux[100];
     Employee* empleadoAux;
-    pArchivo = fopen(path,"r");
-    int i = -1;
-    while(!feof(pArchivo))
+    if(pArrayListEmployee != NULL && path != NULL)
     {
 
-        fscanf(pArchivo, "%[^,],%[^,],%[^,],%[^\n]\n", idAux, nameAux, salaryAux,workHoursAux);
-        if(i != -1)
+        pArchivo = fopen(path,"r");
+
+        if(pArchivo != NULL)
         {
-            empleadoAux = employee_newParametros(idAux,nameAux,workHoursAux,salaryAux);
-            if(empleadoAux != NULL)
+            while(!feof(pArchivo))
             {
-                ll_add(pArrayListEmployee, empleadoAux);
+
+                fscanf(pArchivo, "%[^,],%[^,],%[^,],%[^\n]\n", idAux, nameAux, salaryAux,workHoursAux);
+                if(i != -1)
+                {
+                    empleadoAux = employee_newParametros(idAux,nameAux,workHoursAux,salaryAux);
+                    if(empleadoAux != NULL)
+                    {
+                        ll_add(pArrayListEmployee, empleadoAux);
+
+                    }
+                    else
+                    {
+                        printf("\n ERROR: SE ENCONTRO UN ELEMNTO INCOMPATIBLE\n");
+                        controller_deleteListEmployee(pArrayListEmployee);
+                        i = 0;
+                        break;
+                    }
+                }
+                i++;
             }
-            else
-            {
-                printf("\n ERROR: SE ENCONTRO UN ELEMNTO INCOMPATIBLE\n");
-                controller_deleteListEmployee(pArrayListEmployee);
-                i = 0;
-                break;
-            }
+            fclose(pArchivo);
         }
-        i++;
+        else
+        {
+            printf("No existe el archivo\n");
+        }
     }
-    fclose(pArchivo);
 
     return i;
 }
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 {
-    int estado;
     FILE* pArchivo;
     Employee* empleadoAux;
+    int i = 0;
+
+    if(pArrayListEmployee != NULL && path != NULL)
+    {
     pArchivo = fopen(path,"rb");
     if(pArchivo != NULL)
     {
@@ -69,6 +73,7 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
             if(empleadoAux != NULL)
             {
                 ll_add(pArrayListEmployee, empleadoAux);
+                i++;
             }
             else
             {
@@ -77,20 +82,16 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 
 
         }
-        estado = 0;
         fclose(pArchivo);
     }
 
-    return estado;
+
+
+    }
+
+    return i;
 }
 
-/** \brief Alta de empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -124,13 +125,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
     return estado;
 }
 
-/** \brief Modificar datos de empleado
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -148,7 +143,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
+                subLista = controller_createSubList(pArrayListEmployee,len,subListaInicio,pagina);
                 printf("E) Ingresar el Id de el empleado a modificar: \n");
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
@@ -184,13 +179,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
     return estado;
 }
 
-/** \brief Baja de empleado
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_removeEmployee(LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -209,7 +198,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
+                subLista = controller_createSubList(pArrayListEmployee,len,subListaInicio,pagina);
                 printf("E) Ingresar el Id de el empleado a eliminar: \n");
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
@@ -254,13 +243,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
     return estado;
 }
 
-/** \brief Listar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_ListEmployee(LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -276,8 +259,8 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                            system("cls");
-                subLista = controller_printListSubMenu(pArrayListEmployee,len,subListaInicio,pagina);
+                system("cls");
+                subLista = controller_createSubList(pArrayListEmployee,len,subListaInicio,pagina);
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
 
@@ -330,13 +313,7 @@ int controller_printList(LinkedList* pArrayListEmployee)
     }
     return i;
 }
-/** \brief Ordenar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -355,7 +332,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
         {
             do
             {
-                subLista = controller_printListSubMenu(displayList,len,subListaInicio,pagina);
+                subLista = controller_createSubList(displayList,len,subListaInicio,pagina);
                 printf("E) Cambiar Criteria de ordenamiento: \n");
                 controller_printList(subLista);
                 ll_deleteLinkedList(subLista);
@@ -390,13 +367,6 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     return estado;
 }
 
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -437,13 +407,6 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
     return estado;
 }
 
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 {
     int estado = -1;
@@ -724,9 +687,9 @@ int controller_selectSortCriteria(LinkedList* pArrayListEmployee)
         while(opcion != 's' && orden == -1);
         if(opcion != 's')
         {
-        printf("\n Ordenando Elementos...");
-        switch(opcion)
-        {
+            printf("\n Ordenando Elementos...");
+            switch(opcion)
+            {
             case 'a':
                 ll_sort(pArrayListEmployee,employee_ordenNombre,orden);
                 break;
@@ -736,7 +699,7 @@ int controller_selectSortCriteria(LinkedList* pArrayListEmployee)
             case 'w':
                 ll_sort(pArrayListEmployee,employee_ordenHoras,orden);
                 break;
-        }
+            }
             estado = 0;
         }
     }
@@ -829,10 +792,10 @@ int controller_editEmployeeMenu(Employee* oldEmployee)
         do
         {
             system("cls");
-            printf("Empleado Original: ");
+            printf("Empleado Original:\n ");
             printf("%5s %20s %10s %12s","ID", "NOMBRE", "SUELDO", "HORAS TRABAJADAS\n");
             employee_print(oldEmployee);
-            printf("Empleado Editado: ");
+            printf("Empleado Editado:\n ");
             printf("%5s %20s %10s %12s","ID", "NOMBRE", "SUELDO", "HORAS TRABAJADAS\n");
 
             employee_print(newEmployee);
@@ -930,7 +893,7 @@ int controller_deleteEmployee(LinkedList* pArrayListEmployee, Employee* target)
     }
     return estado;
 }
-LinkedList* controller_printListSubMenu(LinkedList* pArrayListEmployee, int len, int from, int actualPage)
+LinkedList* controller_createSubList(LinkedList* pArrayListEmployee, int len, int from, int actualPage)
 {
     LinkedList* subLista = NULL;
     int to;

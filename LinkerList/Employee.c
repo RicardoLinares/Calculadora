@@ -178,11 +178,11 @@ int employee_setNombre(Employee* this,char* nombre)
 }
 char* employee_getNombre(Employee* this)
 {
-    char* nombre;
+    char* nombre = NULL;
 
-    nombre = (char*)malloc(sizeof(char)*TAMANIO_NOMBRE);
     if(this != NULL)
     {
+        nombre = (char*)malloc(sizeof(char)*TAMANIO_NOMBRE);
         strcpy(nombre,this->nombre);
     }
     return nombre;
@@ -208,7 +208,7 @@ int employee_print(Employee* this)
 
 int employee_ordenHoras(void* cajaA,void* cajaB)
 {
-    int estado = 1;
+    int estado = 0;
     Employee* empleadoA;
     Employee* empleadoB;
     int horasA;
@@ -224,11 +224,11 @@ int employee_ordenHoras(void* cajaA,void* cajaB)
 
             if(horasA > horasB)
             {
-                estado = -1;
+                estado = 1;
             }
-            else if(horasA == horasB)
+            else if(horasA < horasB)
             {
-                estado = 0;
+                estado = -1;
             }
 
         }
@@ -239,7 +239,7 @@ int employee_ordenHoras(void* cajaA,void* cajaB)
 
 int employee_ordenSueldo(void* cajaA,void* cajaB)
 {
-    int estado = 1;
+    int estado = 0;
     Employee* empleadoA;
     Employee* empleadoB;
     int sueldoA;
@@ -255,11 +255,11 @@ int employee_ordenSueldo(void* cajaA,void* cajaB)
 
             if(sueldoA > sueldoB)
             {
-                estado = -1;
+                estado = 1;
             }
-            else if(sueldoA == sueldoB)
+            else if(sueldoA < sueldoB)
             {
-                estado = 0;
+                estado = -1;
             }
 
         }

@@ -52,7 +52,14 @@ int main()
             if(elementosCargados < 1)
             {
                 elementosCargados = controller_loadFromText("data.csv",listaEmpleados);
-                printf("Se cargaron %d Empleados\n", elementosCargados);
+                if(elementosCargados != -1)
+                {
+                    printf("Se cargaron %d Empleados\n", elementosCargados);
+                }
+                else
+                {
+                    printf("Error Al cargar la lista\n");
+                }
             }
             else
             {
