@@ -34,7 +34,10 @@ LinkedList* ll_newLinkedList(void)
 int ll_len(LinkedList* this)
 {
     int returnAux = -1;
-
+    if(this != NULL)
+    {
+        returnAux = this->size;
+    }
     return returnAux;
 }
 
@@ -50,7 +53,21 @@ int ll_len(LinkedList* this)
 static Node* getNode(LinkedList* this, int nodeIndex)
 {
     Node* pNode = NULL;
+    int len;
+    int i;
 
+    if(this != NULL && nodeIndex >= 0)
+    {
+        len = ll_len(this);
+        if(nodeIndex <= len - 1)
+        {
+            pNode = this->pFirstNode;
+            for(i = 0; i<nodeIndex; i++)
+            {
+                pNode =  pNode->pNextNode;
+            }
+        }
+    }
     return pNode;
 }
 
@@ -64,6 +81,7 @@ static Node* getNode(LinkedList* this, int nodeIndex)
  */
 Node* test_getNode(LinkedList* this, int nodeIndex)
 {
+
     return getNode(this, nodeIndex);
 }
 
@@ -80,10 +98,64 @@ Node* test_getNode(LinkedList* this, int nodeIndex)
 static int addNode(LinkedList* this, int nodeIndex,void* pElement)
 {
     int returnAux = -1;
+    Node* pNodeAux = NULL;
+    Node* pNewNode = NULL;
+    int i = 0;
+    int len;
 
+    if(this != NULL && nodeIndex >= 0)
+    {
+        pNewNode = (Node*) malloc(sizeof(Node));
+        if(pNewNode != NULL)
+        {
+            len = ll_len(this);
+            pNodeAux = this->pFirstNode;
+            while(pNodeAux != NULL && i < nodeIndex)
+            {
+                i++;
+                if(pNodeAux->pNextNode != NULL)
+                {
+                    pNodeAux =  pNodeAux->pNextNode;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+        }
+
+        pNewNode->pElement = pElement;
+        if(i > 0) // se sabe que tengo un Nodo atras
+        {
+            if(pNodeAux->pNextNode != NULL) // NO hay un nodo adelante
+            {
+                pNewNode->pNextNode = pNodeAux->pNextNode;
+            }
+            else // hay un nodo adelante
+            {
+                pNewNode->pNextNode = NULL;
+            }
+            pNodeAux->pNextNode = pNewNode;
+
+        }
+        else // Primera iteracion se sabe que NO tengo un nodo atras
+        {
+            this->pFirstNode = pNewNode;
+            if(pNodeAux != NULL) // si estoy remplazando a otro nodo
+            {
+                pNewNode->pNextNode = pNodeAux;
+            }
+            else // si este nodo es el unico nodo en la lista.
+            {
+                pNewNode->pNextNode = NULL;
+            }
+        }
+        this->size += 1;
+        returnAux = 0;
+    }
     return returnAux;
 }
-
 
 /** \brief Permite realizar el test de la funcion addNode la cual es privada
  *
@@ -326,7 +398,7 @@ LinkedList* ll_clone(LinkedList* this)
  * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
                                 ( 0) Si ok
  */
-int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
+int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
 {
     int returnAux =-1;
 
