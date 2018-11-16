@@ -530,7 +530,7 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
         len2 = ll_len(this2);
         if(len2<=len)
         {
-            for(i=0;i<len2;i++)
+            for(i=0; i<len2; i++)
             {
                 pAuxiliar = ll_get(this2,i);
                 success = ll_contains(this,pAuxiliar);
@@ -566,7 +566,33 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 LinkedList* ll_subList(LinkedList* this,int from,int to)
 {
     LinkedList* cloneArray = NULL;
+    void* pElementAux;
+    int len;
+    int i;
+    int success;
+    if(this != NULL)
+    {
+        len = ll_len(this);
+        if(from >= 0 && to <= len && from < to)
+        {
+            cloneArray = ll_newLinkedList();
+            if(cloneArray != NULL)
+            {
 
+
+                for(i=from; i<to; i++)
+                {
+                    pElementAux = ll_get(this,i);
+                    success = ll_add(cloneArray,pElementAux);
+                    if(success != 0)
+                    {
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
     return cloneArray;
 }
 
@@ -581,31 +607,11 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
 LinkedList* ll_clone(LinkedList* this)
 {
     LinkedList* cloneArray = NULL;
-    void* pElementAux;
     int len;
-    int i;
-    int success;
     if(this != NULL)
     {
-        cloneArray = ll_newLinkedList();
-        if(cloneArray != NULL)
-        {
-            len = ll_len(this);
-            for(i=0;i<len;i++)
-            {
-                pElementAux = ll_get(this,i);
-                success = ll_add(cloneArray,pElementAux);
-                if(success != 0)
-                {
-                    break;
-                }
-            }
-            if(i != len)
-            {
-                ll_deleteLinkedList(cloneArray);
-                cloneArray = NULL;
-            }
-        }
+        len = ll_len(this);
+        cloneArray = ll_subList(this,0,len);
     }
     return cloneArray;
 }
@@ -621,7 +627,37 @@ LinkedList* ll_clone(LinkedList* this)
 int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
 {
     int returnAux =-1;
+    int len;
+    int i;
+    int j;
+    int proceso;
+    Node* pElementoA;
+    Node* pElementoB;
+    void* pAuxiliar;
+    if(this != NULL && pFunc != NULL && (order == 0 || order == 1))
+    {
+        len = ll_len(this);
 
+        for(i=0; i<len; i++)
+        {
+            for(j=i+1; j<len; j++)
+            {
+                pElementoA = test_getNode(this,i);
+                pElementoB = test_getNode(this,j);
+                proceso = pFunc(pElementoA->pElement,pElementoB->pElement);
+                if(proceso != 0)
+                {
+                    if((order == 1 && proceso == 1 )||(order == 0 && proceso == -1))
+                    {
+                        pAuxiliar = pElementoA->pElement;
+                        pElementoA->pElement = pElementoB->pElement;
+                        pElementoB->pElement = pAuxiliar;
+                    }
+                }
+            }
+        }
+        returnAux = 0;
+    }
     return returnAux;
 
 }
