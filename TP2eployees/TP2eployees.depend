@@ -12,15 +12,16 @@
 	<stdlib.h>
 	"ArrayEmployees.h"
 
-1542371766 source:d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.c
+1542383000 source:d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.c
 	"ArrayEmployees.h"
 
-1542371766 d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.h
+1542382087 d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<ctype.h>
 
-1542371766 source:d:\linares\tp_laboratorio_1\tp2eployees\main.c
+1542382956 source:d:\linares\tp_laboratorio_1\tp2eployees\main.c
 	<stdio.h>
 	<stdlib.h>
 	"ArrayEmployees.h"
