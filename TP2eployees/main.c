@@ -11,6 +11,7 @@ int main()
 
     initEmployees(list, LISTA_EMPLEADOS);
 
+    inputEmployee(list, LISTA_EMPLEADOS);
     addEmployee(list, LISTA_EMPLEADOS, getNextID(list,LISTA_EMPLEADOS), "ALFONSO", "MEDINA", 111,4);
     addEmployee(list, LISTA_EMPLEADOS, getNextID(list,LISTA_EMPLEADOS), "CASTOR", "VIENA",233,4);
 

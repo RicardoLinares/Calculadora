@@ -662,3 +662,4 @@ int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
 
 }
 
+// Linkerlist* ll_filter(linkedList l, int (*function) (void*) );

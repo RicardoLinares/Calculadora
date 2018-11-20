@@ -37,6 +37,8 @@ find a employee] - (0) if Ok
 */
 int removeEmployee(Employee* list, int len, int id);
 
+int DeleteEmployee(Employee* list, int len);
+
 /** \brief add in a existing list of employees the values received as parameters
  * in the first empty position
  * \param list employee*
@@ -86,6 +88,25 @@ int getNextID(Employee* list, int len);
 
 int getFreeSpace(Employee* list, int len);
 
+
+int inputNamesEmployee(char nameString[], int size, char mensaje[]);
+int nameCapitalization(char origin[], int len);
+int validateFormatName(char nameString[], int size);
+int inputEmployee(Employee* list, int length);
+
+int inputSectorEmployee(void);
+float inputSalaryEmployee(void);
+
+/** \brief Sort the elements in the array of employees, the argument order
+indicate UP or DOWN order
+*
+* \param list Employee*
+* \param len int
+* \param order int [1] indicate UP - [0] indicate DOWN
+* \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
+*
+*/
+int sortEmployees(Employee* list, int len, int order);
 #ifndef ARRAYEMPLOYEES_H_INCLUDED
 #define ARRAYEMPLOYEES_H_INCLUDED
 
