@@ -46,11 +46,14 @@ int printListStringsChars(int size, ...)
 
 int waitsForMenuInput(int size, char mensaje[])
 {
-    int retorno;
+    int retorno = -1;
     int optionValidationFlag = 0;
     int opcion;
     int i;
-    printf("%s", mensaje);
+    if(mensaje != NULL)
+    {
+        printf("%s", mensaje);
+    }
     fflush(stdin);
     scanf("%d", &opcion);
 
@@ -62,11 +65,6 @@ int waitsForMenuInput(int size, char mensaje[])
             optionValidationFlag = 1;
             break;
         }
-    }
-
-    if(optionValidationFlag == 0)
-    {
-        retorno = -1;
     }
     return retorno;
 }

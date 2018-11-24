@@ -662,4 +662,31 @@ int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
 
 }
 
-// Linkerlist* ll_filter(linkedList l, int (*function) (void*) );
+
+LinkedList* ll_filter(LinkedList* this, int (*function) (void*) )
+{
+    LinkedList* filteredList = NULL;
+    void* auxiliar;
+    int i;
+    int len;
+    if(this != NULL && function != NULL)
+    {
+        len = ll_len(this);
+        if(len > 0)
+        {
+            filteredList = ll_newLinkedList();
+            if(filteredList != NULL)
+            {
+                for(i=0; i<len; i++)
+                {
+                    auxiliar = ll_get(this, i);
+                    if(function(auxiliar) == 1)
+                    {
+                        ll_add(filteredList, auxiliar);
+                    }
+                }
+            }
+        }
+    }
+    return filteredList;
+}

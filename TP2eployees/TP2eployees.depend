@@ -12,24 +12,26 @@
 	<stdlib.h>
 	"ArrayEmployees.h"
 
-1542721516 source:d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.c
+1543071846 source:d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.c
 	"ArrayEmployees.h"
 
-1542722761 d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.h
+1543071863 d:\linares\tp_laboratorio_1\tp2eployees\arrayemployees.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
+	"menuSystem.h"
 
-1542721066 source:d:\linares\tp_laboratorio_1\tp2eployees\main.c
+1543071797 source:d:\linares\tp_laboratorio_1\tp2eployees\main.c
 	<stdio.h>
 	<stdlib.h>
 	"ArrayEmployees.h"
-
-1542717574 source:d:\linares\tp_laboratorio_1\tp2eployees\menusystem.c
 	"menuSystem.h"
 
-1542717574 d:\linares\tp_laboratorio_1\tp2eployees\menusystem.h
+1543066126 source:d:\linares\tp_laboratorio_1\tp2eployees\menusystem.c
+	"menuSystem.h"
+
+1543061974 d:\linares\tp_laboratorio_1\tp2eployees\menusystem.h
 	<stdio.h>
 	<string.h>
 	<stdlib.h>

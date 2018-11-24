@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "menuSystem.h"
 #define TRUE 1
 #define FALSE 0
 #define NAMES 51
@@ -107,6 +108,19 @@ indicate UP or DOWN order
 *
 */
 int sortEmployees(Employee* list, int len, int order);
+
+
+int ModifyMenuEmployee(Employee list[], int len, int id);
+
+
+int ModifyEmployee(Employee* list, int len);
+
+int getExistingEmployees(Employee list[], int len);
+
+int informMenuEmployee(Employee list[], int len);
+
+
+int printSalaryStatsEmployee(Employee list[], int len);
 #ifndef ARRAYEMPLOYEES_H_INCLUDED
 #define ARRAYEMPLOYEES_H_INCLUDED
 
